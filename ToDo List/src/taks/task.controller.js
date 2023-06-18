@@ -9,7 +9,9 @@ exports.addTask = async (req, res) => {
         let taksExist = await Task.findOne({ name: data.name })
         if (taksExist) return res.send({ message: 'Tarea ya existente' })
         
-        if(data.priority == -1) return res.send({message:'No se puede agregar una tarea con prioridad menor a 1'})
+        //validar que no se agregue una tarea con prioridad menor a 1 o mayor a 10
+        if(data.priority < 1) return res.send({message:'No se puede agregar una tarea con prioridad menor a 1'})
+        else if(data.priority > 10) return res.send({message:'No se puede agregar una tarea con prioridad mayor a 10'})
 
         let newTaks = new Task(data);
         await newTaks.save();
